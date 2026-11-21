@@ -1,0 +1,418 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* KimiBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* KimiBarApp.swift */; };
+		A10000000000000000000002 /* UsageBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* UsageBars.swift */; };
+		A10000000000000000000003 /* UsageBarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* UsageBarsTests.swift */; };
+		A10000000000000000000004 /* UsageAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* UsageAPIClientTests.swift */; };
+		A10000000000000000000005 /* UsageAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* UsageAPIClient.swift */; };
+		A10000000000000000000008 /* CredentialManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* CredentialManagerTests.swift */; };
+		A10000000000000000000009 /* CredentialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* CredentialManager.swift */; };
+		A10000000000000000000010 /* TestURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* TestURLProtocol.swift */; };
+		A10000000000000000000011 /* AuthenticatedUsageFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* AuthenticatedUsageFetcherTests.swift */; };
+		A10000000000000000000012 /* AuthenticatedUsageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* AuthenticatedUsageFetcher.swift */; };
+		A10000000000000000000013 /* CredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000013 /* CredentialStore.swift */; };
+		A10000000000000000000015 /* UsageRefreshCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* UsageRefreshCoordinatorTests.swift */; };
+		A10000000000000000000016 /* UsageSnapshotStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* UsageSnapshotStoreTests.swift */; };
+		A10000000000000000000017 /* UsageRefreshCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* UsageRefreshCoordinator.swift */; };
+		A10000000000000000000018 /* UsageSnapshotStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000018 /* UsageSnapshotStore.swift */; };
+		A10000000000000000000021 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000021 /* Assets.xcassets */; };
+		A10000000000000000000022 /* AuthenticatedUsageSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000022 /* AuthenticatedUsageSession.swift */; };
+		A10000000000000000000023 /* AuthenticatedUsageSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000023 /* AuthenticatedUsageSessionTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A30000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A40000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A50000000000000000000001;
+			remoteInfo = KimiBar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* KimiBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KimiBarApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* UsageBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBars.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* UsageBarsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBarsTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* CredentialManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialManagerTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* CredentialManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialManager.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* KimiBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KimiBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000005 /* KimiBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KimiBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000006 /* UsageAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageAPIClientTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* UsageAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageAPIClient.swift; sourceTree = "<group>"; };
+		A20000000000000000000010 /* TestURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestURLProtocol.swift; sourceTree = "<group>"; };
+		A20000000000000000000011 /* AuthenticatedUsageFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedUsageFetcherTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000012 /* AuthenticatedUsageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedUsageFetcher.swift; sourceTree = "<group>"; };
+		A20000000000000000000013 /* CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialStore.swift; sourceTree = "<group>"; };
+		A20000000000000000000015 /* UsageRefreshCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRefreshCoordinatorTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000016 /* UsageSnapshotStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageSnapshotStoreTests.swift; sourceTree = "<group>"; };
+		A20000000000000000000017 /* UsageRefreshCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRefreshCoordinator.swift; sourceTree = "<group>"; };
+		A20000000000000000000018 /* UsageSnapshotStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageSnapshotStore.swift; sourceTree = "<group>"; };
+		A20000000000000000000021 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A20000000000000000000022 /* AuthenticatedUsageSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedUsageSession.swift; sourceTree = "<group>"; };
+		A20000000000000000000023 /* AuthenticatedUsageSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedUsageSessionTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A60000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A60000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A70000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A70000000000000000000002 /* KimiBar */,
+				A70000000000000000000003 /* KimiBarTests */,
+				A70000000000000000000004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A70000000000000000000002 /* KimiBar */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000021 /* Assets.xcassets */,
+				A20000000000000000000001 /* KimiBarApp.swift */,
+				A20000000000000000000002 /* UsageBars.swift */,
+				A20000000000000000000007 /* UsageAPIClient.swift */,
+				A20000000000000000000009 /* CredentialManager.swift */,
+				A20000000000000000000012 /* AuthenticatedUsageFetcher.swift */,
+				A20000000000000000000013 /* CredentialStore.swift */,
+				A20000000000000000000022 /* AuthenticatedUsageSession.swift */,
+				A20000000000000000000017 /* UsageRefreshCoordinator.swift */,
+				A20000000000000000000018 /* UsageSnapshotStore.swift */,
+			);
+			path = KimiBar;
+			sourceTree = "<group>";
+		};
+		A70000000000000000000003 /* KimiBarTests */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000003 /* UsageBarsTests.swift */,
+				A20000000000000000000006 /* UsageAPIClientTests.swift */,
+				A20000000000000000000008 /* CredentialManagerTests.swift */,
+				A20000000000000000000010 /* TestURLProtocol.swift */,
+				A20000000000000000000011 /* AuthenticatedUsageFetcherTests.swift */,
+				A20000000000000000000015 /* UsageRefreshCoordinatorTests.swift */,
+				A20000000000000000000016 /* UsageSnapshotStoreTests.swift */,
+				A20000000000000000000023 /* AuthenticatedUsageSessionTests.swift */,
+			);
+			path = KimiBarTests;
+			sourceTree = "<group>";
+		};
+		A70000000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000004 /* KimiBar.app */,
+				A20000000000000000000005 /* KimiBarTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000000000000000000001 /* KimiBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000000000000000000001 /* Build configuration list for PBXNativeTarget "KimiBar" */;
+			buildPhases = (
+				A90000000000000000000001 /* Sources */,
+				A60000000000000000000001 /* Frameworks */,
+				AA0000000000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KimiBar;
+			productName = KimiBar;
+			productReference = A20000000000000000000004 /* KimiBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A50000000000000000000002 /* KimiBarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000000000000000000002 /* Build configuration list for PBXNativeTarget "KimiBarTests" */;
+			buildPhases = (
+				A90000000000000000000002 /* Sources */,
+				A60000000000000000000002 /* Frameworks */,
+				AA0000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB0000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = KimiBarTests;
+			productName = KimiBarTests;
+			productReference = A20000000000000000000005 /* KimiBarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A40000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A50000000000000000000001 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					A50000000000000000000002 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = A50000000000000000000001;
+					};
+				};
+			};
+			buildConfigurationList = A80000000000000000000003 /* Build configuration list for PBXProject "KimiBar" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A70000000000000000000001;
+			productRefGroup = A70000000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000000000000000000001 /* KimiBar */,
+				A50000000000000000000002 /* KimiBarTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA0000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000021 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A90000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* KimiBarApp.swift in Sources */,
+				A10000000000000000000002 /* UsageBars.swift in Sources */,
+				A10000000000000000000005 /* UsageAPIClient.swift in Sources */,
+				A10000000000000000000009 /* CredentialManager.swift in Sources */,
+				A10000000000000000000012 /* AuthenticatedUsageFetcher.swift in Sources */,
+				A10000000000000000000013 /* CredentialStore.swift in Sources */,
+				A10000000000000000000022 /* AuthenticatedUsageSession.swift in Sources */,
+				A10000000000000000000017 /* UsageRefreshCoordinator.swift in Sources */,
+				A10000000000000000000018 /* UsageSnapshotStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A90000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000003 /* UsageBarsTests.swift in Sources */,
+				A10000000000000000000004 /* UsageAPIClientTests.swift in Sources */,
+				A10000000000000000000008 /* CredentialManagerTests.swift in Sources */,
+				A10000000000000000000010 /* TestURLProtocol.swift in Sources */,
+				A10000000000000000000011 /* AuthenticatedUsageFetcherTests.swift in Sources */,
+				A10000000000000000000015 /* UsageRefreshCoordinatorTests.swift in Sources */,
+				A10000000000000000000016 /* UsageSnapshotStoreTests.swift in Sources */,
+				A10000000000000000000023 /* AuthenticatedUsageSessionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB0000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A50000000000000000000001 /* KimiBar */;
+			targetProxy = A30000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AC0000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AC0000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		AC0000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.pabla.KimiBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AC0000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.pabla.KimiBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AC0000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.pabla.KimiBarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KimiBar.app/Contents/MacOS/KimiBar";
+			};
+			name = Debug;
+		};
+		AC0000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.pabla.KimiBarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KimiBar.app/Contents/MacOS/KimiBar";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A80000000000000000000001 /* Build configuration list for PBXNativeTarget "KimiBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC0000000000000000000003 /* Debug */,
+				AC0000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000000000000000000002 /* Build configuration list for PBXNativeTarget "KimiBarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC0000000000000000000005 /* Debug */,
+				AC0000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000000000000000000003 /* Build configuration list for PBXProject "KimiBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC0000000000000000000001 /* Debug */,
+				AC0000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A40000000000000000000001 /* Project object */;
+}

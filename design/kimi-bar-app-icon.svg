@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <defs>
+    <linearGradient id="background" x1="202" y1="126" x2="824" y2="918" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#343B68"/>
+      <stop offset="0.52" stop-color="#1D2242"/>
+      <stop offset="1" stop-color="#11152C"/>
+    </linearGradient>
+    <radialGradient id="light" cx="0" cy="0" r="1" gradientTransform="translate(327 232) rotate(49) scale(683)">
+      <stop stop-color="white" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ring-shadow" x="172" y="180" width="680" height="680" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#070918" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect x="112" y="112" width="800" height="800" rx="180" fill="url(#background)"/>
+  <rect x="112" y="112" width="800" height="800" rx="180" fill="url(#light)"/>
+  <rect x="113.5" y="113.5" width="797" height="797" rx="178.5" stroke="white" stroke-opacity="0.1" stroke-width="3"/>
+
+  <g filter="url(#ring-shadow)">
+    <circle cx="512" cy="512" r="260" stroke="white" stroke-opacity="0.12" stroke-width="82"/>
+    <circle cx="512" cy="512" r="160" stroke="white" stroke-opacity="0.12" stroke-width="78"/>
+
+    <!-- The two open rings echo the live 5-hour and monthly menu-bar indicator. -->
+    <path d="M512 252A260 260 0 1 1 252 512" stroke="#34C759" stroke-width="82" stroke-linecap="round"/>
+    <path d="M512 352A160 160 0 1 1 512 672" stroke="#FF9500" stroke-width="78" stroke-linecap="round"/>
+  </g>
+</svg>
