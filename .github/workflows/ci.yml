@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 16.2
+        run: |
+          sudo xcode-select --switch /Applications/Xcode_16.2.app/Contents/Developer
+          xcodebuild -version
+
+      - name: Build and test
+        run: make test
