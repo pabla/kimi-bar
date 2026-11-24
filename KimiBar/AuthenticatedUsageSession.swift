@@ -19,7 +19,9 @@ struct AuthenticatedUsageSessionState: Equatable {
     let usageFailureReason: String?
     let userCode: String?
 
-    var canRefresh: Bool { phase == .restoring || phase == .signedIn }
+    var canRefresh: Bool {
+        phase == .restoring || phase == .signedIn
+    }
 }
 
 @MainActor
@@ -131,8 +133,12 @@ final class AuthenticatedUsageSession: ObservableObject {
             usage.signedOut()
         } catch {
             authenticationFailureReason = "Sign-out failed. Try again."
-            if phase == .signingIn { phase = .failed }
-            if phase == .restoring || phase == .signedIn { usage.start() }
+            if phase == .signingIn {
+                phase = .failed
+            }
+            if phase == .restoring || phase == .signedIn {
+                usage.start()
+            }
         }
         publish()
     }
@@ -179,7 +185,8 @@ final class AuthenticatedUsageSession: ObservableObject {
                     break
                 }
             } else if phase == .restoring,
-                      usageState.error as? KimiCredentialError == .storageUnavailable {
+                      usageState.error as? KimiCredentialError == .storageUnavailable
+            {
                 phase = .failed
                 authenticationFailureReason = usageState.error?.localizedDescription
                 usage.stop()
@@ -188,7 +195,8 @@ final class AuthenticatedUsageSession: ObservableObject {
             } else if phase == .restoring,
                       usageState.lastSuccessfulUpdate != nil,
                       !usageState.isStale,
-                      usageState.error == nil {
+                      usageState.error == nil
+            {
                 phase = .signedIn
             }
         }
@@ -201,8 +209,12 @@ final class AuthenticatedUsageSession: ObservableObject {
 
     private static func authenticationFailure(from error: Error?) -> AuthenticationFailure? {
         guard let error else { return nil }
-        if (error as? KimiCredentialError) == .authenticationRequired { return .credentialsRequired }
-        if case UsageAPIError.httpStatus(401, retryAfter: _) = error { return .reauthenticationRequired }
+        if (error as? KimiCredentialError) == .authenticationRequired {
+            return .credentialsRequired
+        }
+        if case UsageAPIError.httpStatus(401, retryAfter: _) = error {
+            return .reauthenticationRequired
+        }
         return nil
     }
 

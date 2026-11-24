@@ -7,8 +7,13 @@ struct KimiCredentials: Equatable, Sendable, Codable, CustomStringConvertible, C
     let expiresAt: Date
     let expiresIn: TimeInterval
 
-    var description: String { "<KimiCredentials redacted>" }
-    var debugDescription: String { description }
+    var description: String {
+        "<KimiCredentials redacted>"
+    }
+
+    var debugDescription: String {
+        description
+    }
 }
 
 struct KimiDeviceAuthorization: Sendable {
@@ -93,7 +98,7 @@ final class KimiCredentialManager: CredentialManaging, AuthenticationManaging, @
         session: URLSession = .shared,
         now: @escaping @Sendable () -> Date = { Date() },
         sleep: @escaping @Sendable (TimeInterval) async throws -> Void = { interval in
-            try await Task.sleep(nanoseconds: UInt64(min(interval, 86_400) * 1_000_000_000))
+            try await Task.sleep(nanoseconds: UInt64(min(interval, 86400) * 1_000_000_000))
         }
     ) {
         self.store = store
@@ -144,7 +149,7 @@ final class KimiCredentialManager: CredentialManaging, AuthenticationManaging, @
                 fields: [
                     "client_id": Self.clientID,
                     "device_code": authorization.deviceCode,
-                    "grant_type": "urn:ietf:params:oauth:grant-type:device_code"
+                    "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
                 ]
             )
             if status == 200 {
@@ -157,7 +162,9 @@ final class KimiCredentialManager: CredentialManaging, AuthenticationManaging, @
             }
             switch error {
             case "authorization_pending", "slow_down":
-                if error == "slow_down" { interval += 5 }
+                if error == "slow_down" {
+                    interval += 5
+                }
                 try await sleep(interval)
             case "access_denied":
                 throw KimiOAuthError.authorizationDenied
@@ -186,7 +193,9 @@ final class KimiCredentialManager: CredentialManaging, AuthenticationManaging, @
         guard let current = try store.loadCredentials(), !current.accessToken.isEmpty else {
             throw KimiCredentialError.authenticationRequired
         }
-        if !forceRefresh && !needsRefresh(current) { return current }
+        if !forceRefresh && !needsRefresh(current) {
+            return current
+        }
         guard !current.refreshToken.isEmpty else {
             throw KimiCredentialError.authenticationRequired
         }
@@ -196,7 +205,7 @@ final class KimiCredentialManager: CredentialManaging, AuthenticationManaging, @
             fields: [
                 "client_id": Self.clientID,
                 "grant_type": "refresh_token",
-                "refresh_token": current.refreshToken
+                "refresh_token": current.refreshToken,
             ]
         )
         guard status == 200 else {
@@ -262,7 +271,9 @@ final class KimiCredentialManager: CredentialManaging, AuthenticationManaging, @
     }
 
     private static func responseNumber(_ value: Any?) -> Double? {
-        if let string = value as? String { return Double(string) }
+        if let string = value as? String {
+            return Double(string)
+        }
         guard let number = value as? NSNumber,
               CFGetTypeID(number) != CFBooleanGetTypeID()
         else { return nil }

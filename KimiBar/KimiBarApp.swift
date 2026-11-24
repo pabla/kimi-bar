@@ -38,7 +38,7 @@ struct KimiBarApp: App {
         networkMonitor.pathUpdateHandler = { path in
             let networkIsAvailable = path.status == .satisfied
             // Launch already refreshes; only an offline-to-online transition needs another.
-            if networkIsAvailable && !networkWasAvailable {
+            if networkIsAvailable, !networkWasAvailable {
                 Task { @MainActor in session.refresh() }
             }
             networkWasAvailable = networkIsAvailable
@@ -50,7 +50,7 @@ struct KimiBarApp: App {
     var body: some Scene {
         MenuBarExtra {
             PopoverView(session: session)
-            .onAppear { session.popoverOpened() }
+                .onAppear { session.popoverOpened() }
         } label: {
             MenuBarIndicator(bars: UsageBars(state: session.state))
         }
@@ -123,7 +123,7 @@ private struct PopoverView: View {
         let bars = UsageBars(state: session.state)
         let statusDetails = [
             "Last successful update: \(popover.lastSuccessfulUpdateText)",
-            popover.errorReason
+            popover.errorReason,
         ].compactMap { $0 }.joined(separator: "\n")
         VStack(alignment: .leading, spacing: 0) {
             UsageLimitRow(

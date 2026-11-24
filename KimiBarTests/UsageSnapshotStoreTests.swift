@@ -1,5 +1,5 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 final class UsageSnapshotStoreTests: XCTestCase {
     private var rootURL: URL!

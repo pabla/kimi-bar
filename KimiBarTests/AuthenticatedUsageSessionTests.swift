@@ -1,11 +1,11 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 @MainActor
 final class AuthenticatedUsageSessionTests: XCTestCase {
-    func testMissingCredentialsMovesFromRestoringToSignedOutAndStopsPolling() async throws {
+    func testMissingCredentialsMovesFromRestoringToSignedOutAndStopsPolling() async {
         let (session, fetcher, clock, _) = makeSession(results: [
-            .failure(KimiCredentialError.authenticationRequired)
+            .failure(KimiCredentialError.authenticationRequired),
         ])
 
         session.start()
@@ -20,14 +20,14 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         XCTAssertEqual(requestCount, 1)
     }
 
-    func testSignInSuccessStartsPollingWithOneImmediateRefresh() async throws {
+    func testSignInSuccessStartsPollingWithOneImmediateRefresh() async {
         let manager = FakeSessionAuthenticationManager()
         var openedURLs: [URL] = []
         let (session, fetcher, clock, _) = makeSession(
             results: [
                 .failure(KimiCredentialError.authenticationRequired),
                 .success(Self.snapshot()),
-                .success(Self.snapshot(fiveHour: 0.6, monthly: 0.8))
+                .success(Self.snapshot(fiveHour: 0.6, monthly: 0.8)),
             ],
             manager: manager,
             openBrowser: { openedURLs.append($0); return true }
@@ -49,7 +49,7 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         session.signOut()
     }
 
-    func testFinal401KeepsSnapshotStaleAndOffersAuthentication() async throws {
+    func testFinal401KeepsSnapshotStaleAndOffersAuthentication() async {
         let cached = StoredUsageSnapshot(usage: Self.snapshot(), fetchedAt: Date(timeIntervalSince1970: 900))
         let (session, fetcher, clock, _) = makeSession(
             results: [.failure(UsageAPIError.httpStatus(401, retryAfter: nil))],
@@ -70,7 +70,7 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         XCTAssertEqual(requestCount, 1)
     }
 
-    func testSignOutCancelsInFlightUsageBeforeDeletingCredentials() async throws {
+    func testSignOutCancelsInFlightUsageBeforeDeletingCredentials() async {
         let cancellation = UsageFetchCancellationFlag()
         let fetcher = FakeUsageFetcher(
             results: [.success(Self.snapshot())],
@@ -96,7 +96,7 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         await fetcher.releaseFirstRequest()
     }
 
-    func testSignOutStopsPollingAndPreservesSnapshot() async throws {
+    func testSignOutStopsPollingAndPreservesSnapshot() async {
         let (session, fetcher, clock, manager) = makeSession(results: [.success(Self.snapshot())])
         session.start()
         await Self.waitUntil { session.state.phase == .signedIn && !session.state.isRefreshing }
@@ -114,7 +114,7 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         XCTAssertEqual(requestCount, 1)
     }
 
-    func testCancellationClearsSignInCodeWithoutStartingUsage() async throws {
+    func testCancellationClearsSignInCodeWithoutStartingUsage() async {
         let manager = FakeSessionAuthenticationManager()
         manager.waitForCompletion = true
         let (session, fetcher, clock, _) = makeSession(
@@ -133,14 +133,16 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         XCTAssertNil(session.state.authenticationFailureReason)
         XCTAssertEqual(manager.signOutCount, 1)
         clock.advance(by: 300)
-        for _ in 0..<5 { await Task.yield() }
+        for _ in 0 ..< 5 {
+            await Task.yield()
+        }
         let requestCount = await fetcher.requestCount
         XCTAssertEqual(requestCount, 1)
     }
 
-    func testOfflineFailureDuringRestoreAllowsSignOut() async throws {
+    func testOfflineFailureDuringRestoreAllowsSignOut() async {
         let (session, _, _, manager) = makeSession(results: [
-            .failure(SessionTestError.offline)
+            .failure(SessionTestError.offline),
         ])
 
         session.start()
@@ -153,10 +155,10 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         XCTAssertEqual(manager.signOutCount, 1)
     }
 
-    func testOfflineFailureDoesNotChangeSignedInPhase() async throws {
+    func testOfflineFailureDoesNotChangeSignedInPhase() async {
         let (session, _, _, _) = makeSession(results: [
             .success(Self.snapshot()),
-            .failure(SessionTestError.offline)
+            .failure(SessionTestError.offline),
         ])
         session.start()
         await Self.waitUntil { session.state.phase == .signedIn && !session.state.isRefreshing }
@@ -170,11 +172,11 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         session.signOut()
     }
 
-    func testCredentialStorageFailureKeepsSignedInPhaseAndNextPolling() async throws {
+    func testCredentialStorageFailureKeepsSignedInPhaseAndNextPolling() async {
         let (session, fetcher, clock, _) = makeSession(results: [
             .success(Self.snapshot()),
             .failure(KimiCredentialError.storageUnavailable),
-            .success(Self.snapshot(fiveHour: 0.6, monthly: 0.8))
+            .success(Self.snapshot(fiveHour: 0.6, monthly: 0.8)),
         ])
         session.start()
         await Self.waitUntil { session.state.phase == .signedIn && !session.state.isRefreshing }
@@ -192,10 +194,10 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         session.signOut()
     }
 
-    func testStorageFailureDuringRestoreOffersSignInAndRecovers() async throws {
+    func testStorageFailureDuringRestoreOffersSignInAndRecovers() async {
         let (session, _, _, _) = makeSession(results: [
             .failure(KimiCredentialError.storageUnavailable),
-            .success(Self.snapshot())
+            .success(Self.snapshot()),
         ])
         session.start()
         await Self.waitUntil { session.state.phase == .failed }
@@ -233,7 +235,7 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         XCTAssertEqual(requestCount, 1)
     }
 
-    func testCredentialStorageFailureDuringSignInExplainsRealCause() async throws {
+    func testCredentialStorageFailureDuringSignInExplainsRealCause() async {
         let manager = FakeSessionAuthenticationManager()
         manager.completionError = KimiCredentialError.storageUnavailable
         let (session, _, _, _) = makeSession(
@@ -252,11 +254,11 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         )
     }
 
-    func testFailedSignOutKeepsSignedInPhaseAndRestartsPolling() async throws {
+    func testFailedSignOutKeepsSignedInPhaseAndRestartsPolling() async {
         let manager = FakeSessionAuthenticationManager()
         manager.signOutError = SessionTestError.signOutFailed
         let (session, fetcher, _, _) = makeSession(results: [
-            .success(Self.snapshot()), .success(Self.snapshot())
+            .success(Self.snapshot()), .success(Self.snapshot()),
         ], manager: manager)
         session.start()
         await Self.waitUntil { session.state.phase == .signedIn && !session.state.isRefreshing }
@@ -271,12 +273,12 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
         session.signOut()
     }
 
-    func testAuthenticationFailureReplacesEarlierSignOutFailure() async throws {
+    func testAuthenticationFailureReplacesEarlierSignOutFailure() async {
         let manager = FakeSessionAuthenticationManager()
         manager.signOutError = SessionTestError.signOutFailed
         let (session, _, _, _) = makeSession(results: [
             .success(Self.snapshot()),
-            .failure(UsageAPIError.httpStatus(401, retryAfter: nil))
+            .failure(UsageAPIError.httpStatus(401, retryAfter: nil)),
         ], manager: manager)
         session.start()
         await Self.waitUntil { session.state.phase == .signedIn && !session.state.isRefreshing }
@@ -317,8 +319,10 @@ final class AuthenticatedUsageSessionTests: XCTestCase {
     private static func waitUntil(
         _ condition: @escaping @MainActor () async -> Bool
     ) async {
-        for _ in 0..<100 {
-            if await condition() { return }
+        for _ in 0 ..< 100 {
+            if await condition() {
+                return
+            }
             await Task.yield()
         }
         XCTFail("Timed out waiting for asynchronous condition")
@@ -339,10 +343,14 @@ private final class FakeSessionAuthenticationManager: AuthenticationManaging {
     var onSignOut: (() -> Void)?
     private(set) var signOutCount = 0
 
-    func beginDeviceAuthorization() async throws -> KimiDeviceAuthorization { authorization }
+    func beginDeviceAuthorization() async throws -> KimiDeviceAuthorization {
+        authorization
+    }
 
-    func completeDeviceAuthorization(_ authorization: KimiDeviceAuthorization) async throws {
-        if let completionError { throw completionError }
+    func completeDeviceAuthorization(_: KimiDeviceAuthorization) async throws {
+        if let completionError {
+            throw completionError
+        }
         if waitForCompletion {
             while true {
                 try Task.checkCancellation()
@@ -352,7 +360,9 @@ private final class FakeSessionAuthenticationManager: AuthenticationManaging {
     }
 
     func signOut() throws {
-        if let signOutError { throw signOutError }
+        if let signOutError {
+            throw signOutError
+        }
         onSignOut?()
         signOutCount += 1
     }
@@ -373,5 +383,7 @@ private enum SessionTestError: Error, LocalizedError {
 private enum SessionSecretError: Error, LocalizedError {
     case failed
 
-    var errorDescription: String? { "Failed with secret-token" }
+    var errorDescription: String? {
+        "Failed with secret-token"
+    }
 }

@@ -1,5 +1,5 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 final class UsageAPIClientTests: XCTestCase {
     func testFetchUsesAuthenticatedGETAndDecodesBothLimitFormats() async throws {
@@ -155,7 +155,7 @@ final class UsageAPIClientTests: XCTestCase {
         let malformedFixtures = [
             "not JSON",
             "{}",
-            "{ \"usages\": [] }"
+            "{ \"usages\": [] }",
         ]
 
         for fixture in malformedFixtures {

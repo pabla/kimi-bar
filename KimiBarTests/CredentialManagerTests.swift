@@ -1,5 +1,5 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 final class CredentialManagerTests: XCTestCase {
     private var session: URLSession!
@@ -52,7 +52,7 @@ final class CredentialManagerTests: XCTestCase {
             return try Self.jsonResponse(request: request, body: [
                 "access_token": "new-access",
                 "refresh_token": "new-refresh",
-                "expires_in": "7200"
+                "expires_in": "7200",
             ])
         }
 
@@ -60,7 +60,7 @@ final class CredentialManagerTests: XCTestCase {
 
         XCTAssertEqual(refreshed, credentials(
             accessToken: "new-access", refreshToken: "new-refresh",
-            expiresAt: now.addingTimeInterval(7_200), expiresIn: 7_200
+            expiresAt: now.addingTimeInterval(7200), expiresIn: 7200
         ))
         XCTAssertEqual(store.stored, refreshed)
     }
@@ -73,7 +73,7 @@ final class CredentialManagerTests: XCTestCase {
         let manager = makeManager()
         TestURLProtocol.handler = { request in
             try Self.jsonResponse(request: request, body: [
-                "access_token": "new-access", "expires_in": 3_600
+                "access_token": "new-access", "expires_in": 3600,
             ])
         }
 
@@ -91,7 +91,7 @@ final class CredentialManagerTests: XCTestCase {
             try Self.jsonResponse(request: request, body: [
                 "access_token": "forced-access",
                 "refresh_token": "forced-refresh",
-                "expires_in": 3_600
+                "expires_in": 3600,
             ])
         }
 
@@ -135,8 +135,8 @@ final class CredentialManagerTests: XCTestCase {
         store.stored = credentials(expiresAt: now.addingTimeInterval(60))
         let manager = makeManager()
         TestURLProtocol.handler = { request in
-            let response = HTTPURLResponse(
-                url: try XCTUnwrap(request.url), statusCode: 401, httpVersion: nil, headerFields: nil
+            let response = try HTTPURLResponse(
+                url: XCTUnwrap(request.url), statusCode: 401, httpVersion: nil, headerFields: nil
             )!
             return (response, Data())
         }
@@ -157,8 +157,8 @@ final class CredentialManagerTests: XCTestCase {
         store.stored = original
         let manager = makeManager()
         TestURLProtocol.handler = { request in
-            let response = HTTPURLResponse(
-                url: try XCTUnwrap(request.url), statusCode: 401, httpVersion: nil, headerFields: nil
+            let response = try HTTPURLResponse(
+                url: XCTUnwrap(request.url), statusCode: 401, httpVersion: nil, headerFields: nil
             )!
             return (response, Data("{\"error_description\":\"old-refresh-secret\"}".utf8))
         }
@@ -186,7 +186,7 @@ final class CredentialManagerTests: XCTestCase {
             return try Self.jsonResponse(request: request, body: [
                 "access_token": "device-access",
                 "refresh_token": "device-refresh",
-                "expires_in": 3_600
+                "expires_in": 3600,
             ])
         }
 
@@ -197,7 +197,7 @@ final class CredentialManagerTests: XCTestCase {
         XCTAssertEqual(authorization.verificationURL.absoluteString, "https://www.kimi.ai/device?user_code=ABCD-1234")
         XCTAssertEqual(store.stored, credentials(
             accessToken: "device-access", refreshToken: "device-refresh",
-            expiresAt: now.addingTimeInterval(3_600)
+            expiresAt: now.addingTimeInterval(3600)
         ))
     }
 
@@ -213,7 +213,7 @@ final class CredentialManagerTests: XCTestCase {
                 return try Self.jsonResponse(request: request, status: 400, body: ["error": error])
             }
             return try Self.jsonResponse(request: request, body: [
-                "access_token": "access", "refresh_token": "refresh", "expires_in": 3_600
+                "access_token": "access", "refresh_token": "refresh", "expires_in": 3600,
             ])
         }
 
@@ -232,7 +232,7 @@ final class CredentialManagerTests: XCTestCase {
         let task = Task {
             try await manager.completeDeviceAuthorization(self.deviceAuthorization(interval: 1e308))
         }
-        for _ in 0..<100 where TestURLProtocol.requests.isEmpty {
+        for _ in 0 ..< 100 where TestURLProtocol.requests.isEmpty {
             try await Task.sleep(nanoseconds: 10_000_000)
         }
         XCTAssertEqual(TestURLProtocol.requests.count, 1)
@@ -253,7 +253,7 @@ final class CredentialManagerTests: XCTestCase {
     func testDenialAndExpiryStopPolling() async throws {
         for (serverError, expectedError) in [
             ("access_denied", KimiOAuthError.authorizationDenied),
-            ("expired_token", KimiOAuthError.deviceCodeExpired)
+            ("expired_token", KimiOAuthError.deviceCodeExpired),
         ] {
             TestURLProtocol.reset()
             store.stored = nil
@@ -308,7 +308,7 @@ final class CredentialManagerTests: XCTestCase {
         TestURLProtocol.reset()
         TestURLProtocol.handler = { request in
             try Self.jsonResponse(request: request, body: [
-                "access_token": "access-without-refresh", "expires_in": 3_600
+                "access_token": "access-without-refresh", "expires_in": 3600,
             ])
         }
         do {
@@ -324,7 +324,7 @@ final class CredentialManagerTests: XCTestCase {
         let manager = makeManager()
         TestURLProtocol.handler = { request in
             try Self.jsonResponse(request: request, body: [
-                "access_token": "persisted-access", "refresh_token": "persisted-refresh", "expires_in": 3_600
+                "access_token": "persisted-access", "refresh_token": "persisted-refresh", "expires_in": 3600,
             ])
         }
         try await manager.completeDeviceAuthorization(deviceAuthorization())
@@ -342,7 +342,7 @@ final class CredentialManagerTests: XCTestCase {
         let manager = makeManager()
         TestURLProtocol.handler = { request in
             try Self.jsonResponse(request: request, body: [
-                "access_token": "new-access", "refresh_token": "new-refresh", "expires_in": 3_600
+                "access_token": "new-access", "refresh_token": "new-refresh", "expires_in": 3600,
             ])
         }
         let saveStarted = expectation(description: "Credential save started")
@@ -389,12 +389,12 @@ final class CredentialManagerTests: XCTestCase {
         accessToken: String = "test-access",
         refreshToken: String = "test-refresh",
         expiresAt: Date? = nil,
-        expiresIn: TimeInterval = 3_600
+        expiresIn: TimeInterval = 3600
     ) -> KimiCredentials {
         KimiCredentials(
             accessToken: accessToken,
             refreshToken: refreshToken,
-            expiresAt: expiresAt ?? now.addingTimeInterval(7_200),
+            expiresAt: expiresAt ?? now.addingTimeInterval(7200),
             expiresIn: expiresIn
         )
     }
@@ -419,7 +419,7 @@ final class CredentialManagerTests: XCTestCase {
             "verification_uri": "https://www.kimi.ai/device",
             "verification_uri_complete": "https://www.kimi.ai/device?user_code=ABCD-1234",
             "expires_in": 600,
-            "interval": 5
+            "interval": 5,
         ]
     }
 
@@ -428,11 +428,15 @@ final class CredentialManagerTests: XCTestCase {
         if body == nil, let stream = request.httpBodyStream {
             stream.open()
             var data = Data()
-            var buffer = [UInt8](repeating: 0, count: 1_024)
+            var buffer = [UInt8](repeating: 0, count: 1024)
             while stream.hasBytesAvailable {
                 let count = stream.read(&buffer, maxLength: buffer.count)
-                if count > 0 { data.append(contentsOf: buffer[0..<count]) }
-                if count <= 0 { break }
+                if count > 0 {
+                    data.append(contentsOf: buffer[0 ..< count])
+                }
+                if count <= 0 {
+                    break
+                }
             }
             stream.close()
             body = data
@@ -448,10 +452,10 @@ final class CredentialManagerTests: XCTestCase {
     private static func jsonResponse(
         request: URLRequest, status: Int = 200, body: [String: Any]
     ) throws -> (HTTPURLResponse, Data) {
-        let response = HTTPURLResponse(
-            url: try XCTUnwrap(request.url), statusCode: status, httpVersion: nil,
+        let response = try HTTPURLResponse(
+            url: XCTUnwrap(request.url), statusCode: status, httpVersion: nil,
             headerFields: ["Content-Type": "application/json"]
         )!
-        return (response, try JSONSerialization.data(withJSONObject: body))
+        return try (response, JSONSerialization.data(withJSONObject: body))
     }
 }

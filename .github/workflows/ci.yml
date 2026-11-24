@@ -19,5 +19,11 @@ jobs:
           sudo xcode-select --switch /Applications/Xcode_16.2.app/Contents/Developer
           xcodebuild -version
 
+      - name: Install SwiftFormat
+        run: brew install swiftformat
+
+      - name: Check formatting
+        run: swiftformat KimiBar KimiBarTests --lint
+
       - name: Build and test
         run: make test

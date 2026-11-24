@@ -22,7 +22,9 @@ struct KeychainCredentialStore: KimiCredentialStoring {
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         var result: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
-        if status == errSecItemNotFound { return nil }
+        if status == errSecItemNotFound {
+            return nil
+        }
         guard status == errSecSuccess else { throw KimiCredentialError.storageUnavailable }
         guard let data = result as? Data,
               let credentials = try? JSONDecoder().decode(KimiCredentials.self, from: data)
@@ -34,13 +36,17 @@ struct KeychainCredentialStore: KimiCredentialStoring {
         let data = try JSONEncoder().encode(credentials)
         let attributes: [String: Any] = [
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
         ]
         let status = SecItemUpdate(baseQuery as CFDictionary, attributes as CFDictionary)
-        if status == errSecSuccess { return }
+        if status == errSecSuccess {
+            return
+        }
         if status == errSecItemNotFound {
             var item = baseQuery
-            for (key, value) in attributes { item[key] = value }
+            for (key, value) in attributes {
+                item[key] = value
+            }
             guard SecItemAdd(item as CFDictionary, nil) == errSecSuccess else {
                 throw KimiCredentialError.storageUnavailable
             }
@@ -60,7 +66,7 @@ struct KeychainCredentialStore: KimiCredentialStoring {
         [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: account
+            kSecAttrAccount as String: account,
         ]
     }
 }

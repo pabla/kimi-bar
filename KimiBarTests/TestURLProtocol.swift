@@ -1,5 +1,5 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 final class TestURLProtocol: URLProtocol {
     static var handler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
@@ -10,8 +10,13 @@ final class TestURLProtocol: URLProtocol {
         requests = []
     }
 
-    override class func canInit(with request: URLRequest) -> Bool { true }
-    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override class func canInit(with _: URLRequest) -> Bool {
+        true
+    }
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        request
+    }
 
     override func startLoading() {
         Self.requests.append(request)
@@ -33,11 +38,15 @@ final class FakeCredentialStore: KimiCredentialStoring {
     var onSave: (() -> Void)?
     private(set) var deleteCount = 0
 
-    func loadCredentials() throws -> KimiCredentials? { stored }
+    func loadCredentials() throws -> KimiCredentials? {
+        stored
+    }
+
     func saveCredentials(_ credentials: KimiCredentials) throws {
         onSave?()
         stored = credentials
     }
+
     func deleteCredentials() throws {
         stored = nil
         deleteCount += 1

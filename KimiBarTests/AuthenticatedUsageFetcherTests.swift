@@ -1,5 +1,5 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 final class AuthenticatedUsageFetcherTests: XCTestCase {
     private var store: FakeCredentialStore!
@@ -11,8 +11,8 @@ final class AuthenticatedUsageFetcherTests: XCTestCase {
         store.stored = KimiCredentials(
             accessToken: "initial-access",
             refreshToken: "initial-refresh",
-            expiresAt: Date().addingTimeInterval(7_200),
-            expiresIn: 3_600
+            expiresAt: Date().addingTimeInterval(7200),
+            expiresIn: 3600
         )
 
         let configuration = URLSessionConfiguration.ephemeral
@@ -99,8 +99,8 @@ final class AuthenticatedUsageFetcherTests: XCTestCase {
     private static func response(
         request: URLRequest, status: Int, json: String
     ) throws -> (HTTPURLResponse, Data) {
-        let response = HTTPURLResponse(
-            url: try XCTUnwrap(request.url), statusCode: status, httpVersion: nil,
+        let response = try HTTPURLResponse(
+            url: XCTUnwrap(request.url), statusCode: status, httpVersion: nil,
             headerFields: ["Content-Type": "application/json"]
         )!
         return (response, Data(json.utf8))

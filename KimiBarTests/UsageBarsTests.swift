@@ -1,5 +1,5 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 final class UsageBarsTests: XCTestCase {
     func testEmptyStateDoesNotFabricateEitherLimit() {
@@ -30,7 +30,7 @@ final class UsageBarsTests: XCTestCase {
         XCTAssertEqual(orange.monthly.color, .orange)
     }
 
-    func testStaleBarsAreGreyAndKeepLastKnownLengths() {
+    func testStaleBarsAreGreyAndKeepLastKnownLengths() throws {
         let bars = UsageBars(state: Self.state(
             fiveHour: 0.4,
             monthly: 0.7,
@@ -39,7 +39,7 @@ final class UsageBarsTests: XCTestCase {
         ))
 
         XCTAssertEqual(bars.fiveHour?.used, 0.6)
-        XCTAssertEqual(bars.monthly.used!, 0.3, accuracy: 0.000_001)
+        XCTAssertEqual(try XCTUnwrap(bars.monthly.used), 0.3, accuracy: 0.000_001)
         XCTAssertEqual(bars.fiveHour?.color, .grey)
         XCTAssertEqual(bars.monthly.color, .grey)
         XCTAssertTrue(bars.accessibilityLabel.contains("data stale"))

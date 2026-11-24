@@ -1,16 +1,16 @@
-import XCTest
 @testable import KimiBar
+import XCTest
 
 @MainActor
 final class UsageRefreshCoordinatorTests: XCTestCase {
-    func testStartRestoresCachedSnapshotAndRefreshesImmediately() async throws {
+    func testStartRestoresCachedSnapshotAndRefreshesImmediately() async {
         let cached = StoredUsageSnapshot(
             usage: Self.snapshot(fiveHour: 0.4, monthly: 0.7),
             fetchedAt: Date(timeIntervalSince1970: 900)
         )
         let store = InMemoryUsageSnapshotStore(stored: cached)
         let fetcher = FakeUsageFetcher(results: [.success(Self.snapshot(fiveHour: 0.5, monthly: 0.8))])
-        let clock = DeterministicUsageClock(now: Date(timeIntervalSince1970: 1_000))
+        let clock = DeterministicUsageClock(now: Date(timeIntervalSince1970: 1000))
         let coordinator = UsageRefreshCoordinator(fetcher: fetcher, clock: clock, store: store)
 
         XCTAssertEqual(coordinator.state.snapshot, cached.usage)
@@ -31,7 +31,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
     func testScheduledRefreshRunsEvery300Seconds() async throws {
         let fetcher = FakeUsageFetcher(results: [
             .success(Self.snapshot()),
-            .success(Self.snapshot(fiveHour: 0.2, monthly: 0.3))
+            .success(Self.snapshot(fiveHour: 0.2, monthly: 0.3)),
         ])
         let clock = DeterministicUsageClock()
         let coordinator = UsageRefreshCoordinator(
@@ -96,7 +96,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
         let fetcher = FakeUsageFetcher(results: [
             .success(original),
             .failure(TestError.offline),
-            .success(recovered)
+            .success(recovered),
         ])
         let clock = DeterministicUsageClock()
         let coordinator = UsageRefreshCoordinator(
@@ -122,7 +122,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
         coordinator.stop()
     }
 
-    func testCacheSaveFailureKeepsPreviousSnapshotAndReportsError() async throws {
+    func testCacheSaveFailureKeepsPreviousSnapshotAndReportsError() async {
         let original = Self.snapshot(fiveHour: 0.4, monthly: 0.7)
         let cached = StoredUsageSnapshot(usage: original, fetchedAt: Date(timeIntervalSince1970: 900))
         let store = InMemoryUsageSnapshotStore(stored: cached)
@@ -147,7 +147,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
         let errors: [Error] = [
             TestError.timeout,
             UsageAPIError.httpStatus(429, retryAfter: nil),
-            UsageAPIError.httpStatus(500, retryAfter: nil)
+            UsageAPIError.httpStatus(500, retryAfter: nil),
         ]
 
         for error in errors {
@@ -159,7 +159,9 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
             )
             coordinator.start()
             await Self.waitUntil { coordinator.state.isStale }
-            for _ in 0..<20 { try await Task.yield() }
+            for _ in 0 ..< 20 {
+                try await Task.yield()
+            }
             let requestCount = await fetcher.requestCount
             XCTAssertEqual(requestCount, 1)
             XCTAssertNil(coordinator.state.snapshot)
@@ -170,7 +172,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
     func testRetryAfterDefersScheduledPolling() async throws {
         let fetcher = FakeUsageFetcher(results: [
             .failure(UsageAPIError.httpStatus(429, retryAfter: 600)),
-            .success(Self.snapshot())
+            .success(Self.snapshot()),
         ])
         let clock = DeterministicUsageClock()
         let coordinator = UsageRefreshCoordinator(
@@ -195,7 +197,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
         coordinator.stop()
     }
 
-    func test401PerformsOneCredentialRefreshAndOneUsageRetry() async throws {
+    func test401PerformsOneCredentialRefreshAndOneUsageRetry() async {
         let transport = FakeUsageAPITransport()
         let credentials = FakeCredentialManager()
         let fetcher = AuthenticatedUsageFetcher(
@@ -220,7 +222,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
 
     func testFinalUsage401IsReturnedForSessionClassification() async {
         let fetcher = FakeUsageFetcher(results: [
-            .failure(UsageAPIError.httpStatus(401, retryAfter: nil))
+            .failure(UsageAPIError.httpStatus(401, retryAfter: nil)),
         ])
         let coordinator = UsageRefreshCoordinator(
             fetcher: fetcher, clock: DeterministicUsageClock(), store: InMemoryUsageSnapshotStore()
@@ -235,7 +237,7 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
 
     func testSignOutStopsPollingAndSignInCanRestartIt() async throws {
         let fetcher = FakeUsageFetcher(results: [
-            .success(Self.snapshot()), .success(Self.snapshot())
+            .success(Self.snapshot()), .success(Self.snapshot()),
         ])
         let clock = DeterministicUsageClock()
         let coordinator = UsageRefreshCoordinator(
@@ -257,10 +259,10 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
         coordinator.stop()
     }
 
-    func testUnavailableLimitDoesNotBlankOtherLimit() async throws {
+    func testUnavailableLimitDoesNotBlankOtherLimit() async {
         let partial = Self.snapshot(fiveHour: nil, monthly: 0.65)
         let fetcher = FakeUsageFetcher(results: [
-            .success(partial), .failure(TestError.offline)
+            .success(partial), .failure(TestError.offline),
         ])
         let coordinator = UsageRefreshCoordinator(
             fetcher: fetcher,
@@ -290,8 +292,10 @@ final class UsageRefreshCoordinatorTests: XCTestCase {
     private static func waitUntil(
         _ condition: @escaping @MainActor () async -> Bool
     ) async {
-        for _ in 0..<100 {
-            if await condition() { return }
+        for _ in 0 ..< 100 {
+            if await condition() {
+                return
+            }
             try? await Task.yield()
         }
         XCTFail("Timed out waiting for asynchronous condition")
@@ -379,8 +383,8 @@ private actor FakeCredentialManager: CredentialManaging {
         return KimiCredentials(
             accessToken: forceRefresh ? "rotated" : "initial",
             refreshToken: "unused",
-            expiresAt: Date(timeIntervalSince1970: 10_000),
-            expiresIn: 3_600
+            expiresAt: Date(timeIntervalSince1970: 10000),
+            expiresIn: 3600
         )
     }
 }
@@ -393,9 +397,14 @@ final class InMemoryUsageSnapshotStore: UsageSnapshotStoring {
         self.stored = stored
     }
 
-    func load() throws -> StoredUsageSnapshot? { stored }
+    func load() throws -> StoredUsageSnapshot? {
+        stored
+    }
+
     func save(_ snapshot: StoredUsageSnapshot) throws {
-        if let saveError { throw saveError }
+        if let saveError {
+            throw saveError
+        }
         stored = snapshot
     }
 }
@@ -410,7 +419,7 @@ final class DeterministicUsageClock: UsageRefreshClock, @unchecked Sendable {
     private var currentDate: Date
     private var sleepers: [UUID: Sleeper] = [:]
 
-    init(now: Date = Date(timeIntervalSince1970: 1_000)) {
+    init(now: Date = Date(timeIntervalSince1970: 1000)) {
         currentDate = now
     }
 

@@ -6,10 +6,12 @@ protocol UsageRefreshClock: Sendable {
 }
 
 struct SystemUsageRefreshClock: UsageRefreshClock {
-    func now() -> Date { Date() }
+    func now() -> Date {
+        Date()
+    }
 
     func sleep(for interval: TimeInterval) async throws {
-        try await Task.sleep(nanoseconds: UInt64(min(interval, 86_400) * 1_000_000_000))
+        try await Task.sleep(nanoseconds: UInt64(min(interval, 86400) * 1_000_000_000))
     }
 }
 
@@ -65,7 +67,9 @@ final class UsageRefreshCoordinator {
                     return
                 }
                 guard let self else { return }
-                if let notBefore = self.notBefore, notBefore > clock.now() { continue }
+                if let notBefore = self.notBefore, notBefore > clock.now() {
+                    continue
+                }
                 self.refresh()
             }
         }
@@ -79,12 +83,16 @@ final class UsageRefreshCoordinator {
         refreshTask = nil
         notBefore = nil
         state.isRefreshing = false
-        if wasRefreshing { onChange?() }
+        if wasRefreshing {
+            onChange?()
+        }
     }
 
     func refresh() {
         guard refreshTask == nil else { return }
-        if let notBefore, notBefore > clock.now() { return }
+        if let notBefore, notBefore > clock.now() {
+            return
+        }
         notBefore = nil
         state.isRefreshing = true
         onChange?()
@@ -106,7 +114,7 @@ final class UsageRefreshCoordinator {
                 self.state.isRefreshing = false
                 self.state.isStale = true
                 self.state.error = error
-                if case UsageAPIError.httpStatus(_, retryAfter: let delay?) = error, delay > 0 {
+                if case let UsageAPIError.httpStatus(_, retryAfter: delay?) = error, delay > 0 {
                     self.notBefore = clock.now().addingTimeInterval(delay)
                 }
                 self.refreshTask = nil
@@ -124,7 +132,8 @@ final class UsageRefreshCoordinator {
 
     func popoverOpened() {
         if let lastSuccessfulUpdate = state.lastSuccessfulUpdate,
-           clock.now().timeIntervalSince(lastSuccessfulUpdate) < Self.pollingInterval {
+           clock.now().timeIntervalSince(lastSuccessfulUpdate) < Self.pollingInterval
+        {
             return
         }
         refresh()

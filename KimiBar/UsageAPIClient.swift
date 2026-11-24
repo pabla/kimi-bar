@@ -10,8 +10,12 @@ struct UsageLimit: Equatable, Codable {
     let resetTime: Date?
 
     var statusColor: UsageBarColor {
-        if remainingRatio >= 0.5 { return .green }
-        if remainingRatio >= 0.2 { return .orange }
+        if remainingRatio >= 0.5 {
+            return .green
+        }
+        if remainingRatio >= 0.2 {
+            return .orange
+        }
         return .red
     }
 }
@@ -58,7 +62,7 @@ struct UsageAPIClient: UsageAPIFetching {
         guard let response = response as? HTTPURLResponse else {
             throw UsageAPIError.invalidResponse
         }
-        guard (200...299).contains(response.statusCode) else {
+        guard (200 ... 299).contains(response.statusCode) else {
             throw UsageAPIError.httpStatus(
                 response.statusCode,
                 retryAfter: Self.retryAfter(from: response, now: now())
@@ -124,7 +128,7 @@ private struct RawLimit: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let usedRatio = (try? container.decode(Double.self, forKey: .usedRatio))
             ?? (try? container.decode(String.self, forKey: .usedRatio)).flatMap(Double.init)
-        if let usedRatio, usedRatio.isFinite, (0...1).contains(usedRatio) {
+        if let usedRatio, usedRatio.isFinite, (0 ... 1).contains(usedRatio) {
             remainingRatio = 1 - usedRatio
         } else {
             remainingRatio = nil
